@@ -1,7 +1,8 @@
-package prasenjit;
+package prasenjit.tree;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static java.util.Objects.isNull;
@@ -51,10 +52,6 @@ public class Node<T extends Comparable<T>> {
         return rightChild;
     }
 
-    public void setRightChild(Node<T> rightChild) {
-        this.rightChild = rightChild;
-    }
-
     public T getData() {
         return data;
     }
@@ -77,5 +74,23 @@ public class Node<T extends Comparable<T>> {
         Integer left = nonNull(leftChild) ? leftChild.getChildrenCount() + 1 : 0;
         Integer right = nonNull(rightChild) ? rightChild.getChildrenCount() + 1 : 0;
         return left + right;
+    }
+
+    public Integer getDepth() {
+        Integer leftDepth = calculateLeftDepth();
+        Integer rightDepth = calculateRightDepth();
+        return leftDepth > rightDepth ? leftDepth : rightDepth;
+    }
+
+    private Integer calculateLeftDepth() {
+        return Optional.ofNullable(leftChild)
+                .map(lc -> lc.getDepth() + 1)
+                .orElse(0);
+    }
+
+    private Integer calculateRightDepth() {
+        return Optional.ofNullable(rightChild)
+                .map(rc -> rc.getDepth() + 1)
+                .orElse(0);
     }
 }

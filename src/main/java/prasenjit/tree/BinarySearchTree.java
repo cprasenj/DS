@@ -1,12 +1,12 @@
-package prasenjit;
+package prasenjit.tree;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 
 import static java.util.Objects.isNull;
-import static java.util.Objects.nonNull;
 
 public class BinarySearchTree<T extends Comparable<T>> extends Tree<T> {
 
@@ -33,14 +33,15 @@ public class BinarySearchTree<T extends Comparable<T>> extends Tree<T> {
     }
 
     public Integer size() {
-        if (nonNull(getRoot())) {
-            return getRoot().getChildrenCount() + 1;
-        }
-        return 0;
+        return Optional.ofNullable(getRoot())
+                .map(r -> r.getChildrenCount() + 1)
+                .orElse(0);
     }
 
     public Integer height() {
-        return null;
+        return Optional.ofNullable(getRoot())
+                .map(r -> r.getDepth() + 1)
+                .orElse(0);
     }
 
     public Integer levelWithMaxSum() {
@@ -52,14 +53,18 @@ public class BinarySearchTree<T extends Comparable<T>> extends Tree<T> {
     }
 
     public <R> List<R> ldrTraversal(Function<T, R> f) {
+
         if (isNull(getRoot())) {
             return Collections.emptyList();
         }
 
-        List<R> leftChildren = isNull(getRoot().getLeftChild()) ? new ArrayList<>() :
-                getRoot().getLeftChild().getChildren(f);
-        List<R> rightChildren = isNull(getRoot().getRightChild()) ? new ArrayList<>() :
-                getRoot().getRightChild().getChildren(f);
+        List<R> leftChildren = Optional.ofNullable(getRoot().getLeftChild())
+                .map(lc -> lc.getChildren(f))
+                .orElse(new ArrayList<>());
+
+        List<R> rightChildren = Optional.ofNullable(getRoot().getRightChild())
+                .map(rc -> rc.getChildren(f))
+                .orElse(new ArrayList<>());
 
         R transformedRootData = f.apply(getRoot().getData());
 
@@ -68,6 +73,8 @@ public class BinarySearchTree<T extends Comparable<T>> extends Tree<T> {
         children.addAll(rightChildren);
         return children;
     }
+
+
 
     public <R> List<R> lrdTraversal(Function<T, R> f) {
         return null;

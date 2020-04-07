@@ -1,4 +1,4 @@
-package prasenjit;
+package prasenjit.tree;
 
 import org.junit.Test;
 
@@ -13,7 +13,7 @@ public class BinarySearchTreeTest {
 
     @Test
     public void shouldInsertValuesInTheTree() {
-        BinarySearchTree<Integer> bst = new BinarySearchTree<Integer>();
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
         bst.insert(10);
         assertEquals(Integer.valueOf(1), bst.size());
 
@@ -51,6 +51,22 @@ public class BinarySearchTreeTest {
         bst.insert(-109);
         assertEquals(Arrays.asList(-109, 2, 5, 10), bst.inOrderTraversal(Function.identity()));
         assertEquals(Integer.valueOf(4), bst.size());
+
+    }
+
+    @Test
+    public void shouldGiveTheHeightOfTheBST() {
+        BinarySearchTree<Integer> bst = new BinarySearchTree<>();
+        bst.insert(10);
+        bst.insert(15);
+        bst.insert(20);
+        bst.insert(25);
+        bst.insert(30);
+        bst.insert(1);
+        bst.insert(2);
+        bst.insert(-20);
+
+        assertEquals(Integer.valueOf(5), bst.height());
 
     }
 

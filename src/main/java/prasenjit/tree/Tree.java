@@ -1,4 +1,4 @@
-package prasenjit;
+package prasenjit.tree;
 
 public abstract class Tree<T extends Comparable<T>> {
     private Node<T> root;
